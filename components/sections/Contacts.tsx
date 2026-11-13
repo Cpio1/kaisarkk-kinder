@@ -36,11 +36,11 @@ function ActionTile({ href, label, sub, icon, className, iconClass, external = t
       animate="rest"
       variants={{ rest: { y: 0 }, hover: { y: -5 } }}
       transition={{ type: "spring", stiffness: 320, damping: 20 }}
-      className={`group relative flex border-2 border-ink shadow-[0_5px_0_0_rgb(42_44_51/0.9)] hover:shadow-[0_9px_0_0_rgb(42_44_51/0.9)] ${
-        stacked ? "min-h-[150px] flex-col items-start justify-between gap-4 p-5" : "min-h-[84px] items-center gap-4 p-3.5 pr-14 sm:p-4 sm:pr-16"
+      className={`group relative flex border-2 border-ink shadow-[0_4px_0_0_rgb(42_44_51/0.9)] hover:shadow-[0_7px_0_0_rgb(42_44_51/0.9)] ${
+        stacked ? "min-h-[118px] flex-col items-start justify-between gap-3 p-4" : "min-h-[68px] items-center gap-3 p-2.5 pr-12 sm:p-3 sm:pr-14"
       } ${className}`}
     >
-      <span className="relative grid size-14 shrink-0 place-items-center">
+      <span className="relative grid size-11 shrink-0 place-items-center">
         {/* «Пульсирующее» кольцо при наведении */}
         <motion.span
           className={`absolute inset-0 rounded-full ${iconClass}`}
@@ -49,18 +49,18 @@ function ActionTile({ href, label, sub, icon, className, iconClass, external = t
           aria-hidden="true"
         />
         <motion.span
-          className={`relative grid size-14 place-items-center rounded-full ${iconClass}`}
+          className={`relative grid size-11 place-items-center rounded-full ${iconClass}`}
           variants={{ rest: { rotate: 0 }, hover: { rotate: -12, scale: 1.06 } }}
         >
           {icon}
         </motion.span>
       </span>
       <span className="flex min-w-0 flex-col">
-        <span className="font-display text-[1rem] leading-tight font-bold sm:text-[1.05rem]">{label}</span>
-        <span className={`mt-1 text-sm font-semibold opacity-80 ${stacked ? "" : "truncate"}`}>{sub}</span>
+        <span className="font-display text-[0.92rem] leading-tight font-bold">{label}</span>
+        <span className={`mt-0.5 text-[0.82rem] font-semibold opacity-80 ${stacked ? "" : "truncate"}`}>{sub}</span>
       </span>
       <motion.span
-        className={`absolute right-4 grid size-9 place-items-center rounded-full bg-paper text-ink ${stacked ? "top-4" : "top-1/2 -translate-y-1/2"}`}
+        className={`absolute right-3 grid size-8 place-items-center rounded-full bg-paper text-ink ${stacked ? "top-3" : "top-1/2 -translate-y-1/2"}`}
         variants={{ rest: { rotate: 0 }, hover: { rotate: 45 } }}
         aria-hidden="true"
       >
@@ -81,8 +81,8 @@ function useActions(stacked = false) {
         label={c.whatsapp}
         sub={site.phoneDisplay}
         ariaLabel={`${c.whatsapp}: ${site.phoneDisplay} ${c.newTab}`}
-        icon={<WhatsAppIcon size={26} />}
-        className="rounded-[28px_28px_28px_8px] bg-[linear-gradient(120deg,#2fbf71,#1f9d5c)] text-white"
+        icon={<WhatsAppIcon size={22} />}
+        className="rounded-[22px_22px_22px_8px] bg-[linear-gradient(120deg,#2fbf71,#1f9d5c)] text-white"
         iconClass="bg-white/20 text-white"
       />
     ),
@@ -93,8 +93,8 @@ function useActions(stacked = false) {
         label={c.instagram}
         sub={site.instagramHandle}
         ariaLabel={`Instagram ${site.instagramHandle} ${c.newTab}`}
-        icon={<InstagramIcon size={26} />}
-        className="rounded-[8px_28px_28px_28px] bg-[linear-gradient(120deg,#7a3fd6_0%,#c2337a_55%,#c9402b_100%)] text-white"
+        icon={<InstagramIcon size={22} />}
+        className="rounded-[8px_22px_22px_22px] bg-[linear-gradient(120deg,#7a3fd6_0%,#c2337a_55%,#c9402b_100%)] text-white"
         iconClass="bg-white/20 text-white"
       />
     ),
@@ -105,8 +105,8 @@ function useActions(stacked = false) {
         label={c.route}
         sub={`2ГИС · ${c.addressShort}`}
         ariaLabel={`${c.route} — 2ГИС ${c.newTab}`}
-        icon={<Navigation size={24} />}
-        className="rounded-[28px_8px_28px_28px] bg-sun text-ink"
+        icon={<Navigation size={20} />}
+        className="rounded-[22px_8px_22px_22px] bg-sun text-ink"
         iconClass="bg-paper text-ink"
       />
     ),
@@ -117,8 +117,8 @@ function useActions(stacked = false) {
         external={false}
         label={c.call}
         sub={site.phoneDisplay}
-        icon={<Phone size={24} />}
-        className="rounded-[28px_28px_8px_28px] bg-paper text-ink"
+        icon={<Phone size={20} />}
+        className="rounded-[22px_22px_8px_22px] bg-paper text-ink"
         iconClass="bg-teal-soft text-teal-deep"
       />
     ),
@@ -136,15 +136,15 @@ function InfoList() {
     { icon: Clock, label: c.hours, value: site.hours, tone: "bg-sun-soft text-sun-deep" },
   ];
   return (
-    <dl className="flex flex-col gap-3">
+    <dl className="flex flex-col gap-2.5">
       {rows.map((r) => (
-        <div key={r.label} className="flex items-start gap-4 rounded-[24px] border-2 border-ink/10 bg-paper p-4">
-          <span className={`grid size-11 shrink-0 place-items-center rounded-2xl ${r.tone}`}>
-            <r.icon size={22} aria-hidden="true" />
+        <div key={r.label} className="flex items-start gap-3 rounded-[20px] border-2 border-ink/10 bg-paper p-3">
+          <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${r.tone}`}>
+            <r.icon size={20} aria-hidden="true" />
           </span>
           <div className="min-w-0">
-            <dt className="text-sm font-bold text-ink-soft">{r.label}</dt>
-            <dd className="mt-0.5 font-bold leading-snug text-ink">
+            <dt className="text-[0.8rem] font-bold text-ink-soft">{r.label}</dt>
+            <dd className="mt-0.5 text-[0.95rem] font-bold leading-snug text-ink">
               {r.href ? (
                 <a href={r.href} className="underline decoration-teal decoration-2 underline-offset-4 hover:decoration-coral">
                   {r.value}
@@ -174,8 +174,8 @@ function MapCard({ tall = false }: { tall?: boolean }) {
       whileHover="hover"
       initial="rest"
       animate="rest"
-      className={`group relative block overflow-hidden rounded-[32px] border-2 border-ink bg-[#e8f6ee] lg:rounded-[40px_40px_40px_120px] shadow-[0_8px_0_0_rgb(42_44_51/0.9)] ${
-        tall ? "h-full min-h-[460px]" : "aspect-[4/3.4]"
+      className={`group relative block overflow-hidden rounded-[26px] border-2 border-ink bg-[#e8f6ee] lg:rounded-[32px_32px_32px_88px] shadow-[0_5px_0_0_rgb(42_44_51/0.9)] ${
+        tall ? "h-full min-h-[300px]" : "h-[270px] sm:h-auto sm:aspect-[4/3]"
       }`}
     >
       {/* Стилизованная схема (декоративная, не реальные координаты) */}
@@ -204,22 +204,22 @@ function MapCard({ tall = false }: { tall?: boolean }) {
         <motion.div
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          className="relative grid size-14 place-items-center rounded-[50%_50%_50%_6px] border-[3px] border-ink bg-coral-deep text-white shadow-lift [rotate:-45deg]"
+          className="relative grid size-11 place-items-center rounded-[50%_50%_50%_6px] border-[3px] border-ink bg-coral-deep text-white shadow-lift [rotate:-45deg]"
         >
           <span className="[rotate:45deg]">
-            <MapPin size={24} aria-hidden="true" />
+            <MapPin size={20} aria-hidden="true" />
           </span>
         </motion.div>
       </div>
 
-      <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full border-2 border-ink bg-paper px-3.5 py-1.5 font-display text-sm font-bold">
+      <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full border-2 border-ink bg-paper px-3 py-1 font-display text-[0.8rem] font-bold">
         <span className="size-2.5 rounded-full bg-[#2fbf71]" aria-hidden="true" />
         {c.mapTitle}
       </div>
 
-      <div className="absolute inset-x-4 bottom-4 flex flex-col gap-3 rounded-[24px] border-2 border-ink bg-paper p-4 pl-5 sm:flex-row sm:items-center sm:justify-between lg:left-14">
-        <p className="leading-snug font-bold">{c.addressShort}</p>
-        <span className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-extrabold text-white">
+      <div className="absolute inset-x-3 bottom-3 flex flex-col gap-2 rounded-[18px] border-2 border-ink bg-paper p-3 pl-4 min-[400px]:flex-row min-[400px]:items-center min-[400px]:justify-between lg:left-12">
+        <p className="text-[0.92rem] leading-snug font-bold">{c.addressShort}</p>
+        <span className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-3.5 py-2 text-[0.82rem] font-extrabold text-white">
           {c.mapCta}
           <motion.span variants={{ rest: { x: 0 }, hover: { x: 3, y: -3 } }}>
             <ArrowUpRight size={16} aria-hidden="true" />
@@ -236,40 +236,40 @@ export function Contacts() {
   const a = useActions();
   const ad = useActions(true);
   return (
-    <section id="contacts" aria-labelledby="contacts-title" className="relative bg-cream py-16 lg:py-28">
+    <section id="contacts" aria-labelledby="contacts-title" className="relative bg-cream py-10 lg:py-16">
       <div className="bg-dots pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
       <div className="relative mx-auto max-w-[1240px] px-4 sm:px-6 xl:px-10">
-        <Star className="absolute top-0 right-6 size-8 lg:right-16 lg:size-11" float="wiggle" color="sun" />
-        <Cloud className="absolute top-28 right-[44%] hidden w-20 lg:block" float="slow" />
+        <Star className="absolute -top-2 right-4 size-5 lg:top-0 lg:right-16 lg:size-7" float="wiggle" color="sun" />
+        <Cloud className="absolute -top-2 left-[36%] hidden w-14 lg:block" float="slow" />
 
         {/* Десктоп */}
-        <div className="hidden grid-cols-[1fr_1.05fr] gap-14 lg:grid xl:gap-20">
-          <div className="flex flex-col gap-8">
+        <div className="hidden grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] gap-12 lg:grid xl:gap-16">
+          <div className="flex flex-col gap-6">
             <SectionHeading id="contacts-title" eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} tone="coral" />
             <Reveal>
               <InfoList />
             </Reveal>
           </div>
-          <div className="flex flex-col gap-5 pt-4">
-            <Reveal className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-4 pt-2">
+            <Reveal className="grid grid-cols-2 gap-3">
               {ad.whatsapp}
               {ad.instagram}
               {ad.route}
               {ad.call}
             </Reveal>
             <Reveal delay={0.1} className="relative flex-1">
-              <Flower className="absolute -top-5 -right-3 z-10 size-12" float="spin" color="teal" />
+              <Flower className="absolute -top-3 -right-2 z-10 size-7" float="spin" color="teal" />
               <MapCard tall />
             </Reveal>
           </div>
         </div>
 
         {/* Мобильная версия */}
-        <div className="flex flex-col gap-7 lg:hidden">
+        <div className="flex flex-col gap-5 lg:hidden">
           <SectionHeading eyebrow={c.eyebrow} title={c.title} subtitle={c.subtitle} tone="coral" />
-          <div className="flex flex-col gap-3.5 sm:grid sm:grid-cols-2">
+          <div className="flex flex-col gap-2.5 sm:grid sm:grid-cols-2">
             {[a.whatsapp, a.call, a.instagram, a.route].map((tile, i) => (
-              <Reveal key={i} delay={0.05 * i} y={20}>
+              <Reveal key={i} delay={0.05 * i} y={14}>
                 {tile}
               </Reveal>
             ))}

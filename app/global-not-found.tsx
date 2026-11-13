@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { nunito, unbounded } from "@/lib/fonts";
+import { display, nunito } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="kk" className={`${unbounded.variable} ${nunito.variable}`}>
+    <html lang="kk" className={`${display.variable} ${nunito.variable}`}>
       <body className="grid min-h-dvh place-items-center bg-cream px-4 font-sans text-ink">
         <main className="flex max-w-md flex-col items-center text-center">
           <p className="font-display text-7xl font-extrabold text-coral-deep">404</p>

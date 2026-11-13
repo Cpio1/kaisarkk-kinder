@@ -5,7 +5,7 @@ export const defaultLocale: Locale = "kk";
 /** Путь главной страницы для языка: казахский — "/", русский — "/ru". */
 export const localePath = (l: Locale) => (l === "kk" ? "/" : "/ru");
 
-export type SectionId = "about" | "classes" | "nutrition" | "gallery" | "documents" | "contacts";
+export type SectionId = "about" | "groups" | "classes" | "nutrition" | "gallery" | "documents" | "contacts";
 
 const kk = {
   meta: {
@@ -16,6 +16,7 @@ const kk = {
   skip: "Негізгі мазмұнға өту",
   nav: {
     about: "Біз туралы",
+    groups: "Топтар",
     classes: "Сабақтар",
     nutrition: "Тамақтану",
     gallery: "Галерея",
@@ -44,7 +45,7 @@ const kk = {
     cta: "WhatsApp арқылы жазылу",
     more: "Толығырақ",
     hoursLabel: "Жұмыс уақыты",
-    photoAlt: "KAISAR KK ясли-бақшасы",
+    photoAlt: "KAISAR KK ясли-бақшасының ғимараты мен ауласы",
     illustrationAlt: "Ясли-бақша ғимаратының суреті",
     stats: [
       { value: "13", label: "топ" },
@@ -182,6 +183,7 @@ const ru: Dictionary = {
   skip: "Перейти к основному содержанию",
   nav: {
     about: "О нас",
+    groups: "Группы",
     classes: "Занятия",
     nutrition: "Питание",
     gallery: "Галерея",
@@ -210,7 +212,7 @@ const ru: Dictionary = {
     cta: "Записаться через WhatsApp",
     more: "Подробнее",
     hoursLabel: "Режим работы",
-    photoAlt: "Ясли-сад KAISAR KK",
+    photoAlt: "Здание и двор ясли-сада KAISAR KK",
     illustrationAlt: "Иллюстрация здания детского сада",
     stats: [
       { value: "13", label: "групп" },
@@ -338,4 +340,4 @@ const ru: Dictionary = {
 };
 
 export const dictionaries: Record<Locale, Dictionary> = { kk, ru };
-export const sectionIds: SectionId[] = ["about", "classes", "nutrition", "gallery", "documents", "contacts"];
+export const sectionIds: SectionId[] = ["about", "groups", "classes", "nutrition", "gallery", "documents", "contacts"];

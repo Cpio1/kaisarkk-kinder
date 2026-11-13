@@ -23,15 +23,15 @@ const toneDot = {
 export function SectionHeading({ eyebrow, title, subtitle, id, align = "left", tone = "coral", aside }: Props) {
   const center = align === "center";
   return (
-    <div className={`flex flex-col gap-4 ${center ? "items-center text-center" : ""}`}>
+    <div className={`flex flex-col gap-3 ${center ? "items-center text-center" : ""}`}>
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.6 }}
         transition={{ duration: 0.5 }}
-        className="inline-flex w-fit items-center gap-2 rounded-full border-2 border-ink/10 bg-paper px-3.5 py-1.5 text-xs font-extrabold tracking-[0.12em] text-ink uppercase shadow-soft sm:text-sm"
+        className="inline-flex w-fit items-center gap-2 rounded-full border-2 border-ink/10 bg-paper px-3 py-1 text-[0.8rem] font-extrabold tracking-[0.01em] text-ink shadow-soft lg:text-[0.86rem]"
       >
-        <span className={`size-2.5 rounded-full ${toneDot[tone]}`} aria-hidden="true" />
+        <span className={`size-2 rounded-full ${toneDot[tone]}`} aria-hidden="true" />
         {eyebrow}
       </motion.p>
       <motion.h2
@@ -40,7 +40,7 @@ export function SectionHeading({ eyebrow, title, subtitle, id, align = "left", t
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-        className={`max-w-3xl text-[1.6rem] leading-[1.15] font-bold tracking-[-0.01em] text-ink sm:text-4xl lg:text-[2.75rem] ${center ? "mx-auto" : ""}`}
+        className={`max-w-3xl text-[clamp(1.35rem,5.6vw,1.75rem)] leading-[1.18] font-bold tracking-[-0.01em] text-ink sm:text-[1.9rem] lg:text-[2.1rem] xl:text-[2.35rem] ${center ? "mx-auto" : ""}`}
       >
         {title}
       </motion.h2>
@@ -50,7 +50,7 @@ export function SectionHeading({ eyebrow, title, subtitle, id, align = "left", t
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6, delay: 0.12 }}
-          className={`max-w-2xl text-base leading-relaxed text-ink-soft sm:text-lg ${center ? "mx-auto" : ""}`}
+          className={`max-w-2xl text-[0.95rem] leading-relaxed text-ink-soft lg:text-[1.05rem] ${center ? "mx-auto" : ""}`}
         >
           {subtitle}
         </motion.p>

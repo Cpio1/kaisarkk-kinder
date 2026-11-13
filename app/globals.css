@@ -19,7 +19,7 @@
   --color-ink: #2a2c33;
   --color-ink-soft: #565a66;
 
-  --font-display: var(--font-unbounded), "Arial Rounded MT Bold", system-ui, sans-serif;
+  --font-display: var(--font-rubik), var(--font-nunito), system-ui, sans-serif;
   --font-sans: var(--font-nunito), system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --shadow-soft: 0 10px 30px -12px rgb(42 44 51 / 0.18);
@@ -54,15 +54,15 @@
 }
 
 :root {
-  --header-h: 64px;
-  --section-offset: 64px;
+  --header-h: 60px;
+  /* Секции имеют собственный верхний отступ, поэтому якорь = высота шапки */
+  --section-offset: var(--header-h);
   color-scheme: light;
 }
 
 @media (min-width: 1024px) {
   :root {
-    --header-h: 80px;
-    --section-offset: 72px;
+    --header-h: 72px;
   }
 }
 
@@ -84,6 +84,11 @@ body {
 /* Заголовок раздела остаётся видимым под фиксированной шапкой */
 section[id] {
   scroll-margin-top: var(--section-offset);
+}
+
+/* Якорь внутри секции (например, «Топтар»): шапка + небольшой зазор */
+[data-anchor] {
+  scroll-margin-top: calc(var(--header-h) + 16px);
 }
 
 h1,

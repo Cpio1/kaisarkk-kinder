@@ -28,19 +28,19 @@ export function Footer() {
     <footer className="relative bg-cream">
       <WaveDivider fill="#2a2c33" />
       <div className="bg-ink text-white">
-        <div className="mx-auto grid max-w-[1240px] gap-10 px-4 pt-10 pb-10 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr] lg:gap-12 lg:pt-14 lg:pb-12 xl:px-10">
+        <div className="mx-auto grid max-w-[1240px] gap-7 px-4 pt-7 pb-7 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr] lg:gap-12 lg:pt-10 lg:pb-10 xl:px-10">
           <div>
-            <p className="font-display text-2xl font-extrabold">
+            <p className="font-display text-xl font-extrabold">
               KAISAR<span className="text-sun"> KK</span>
             </p>
             <p className="mt-2 text-white/75">{site.legalName}</p>
-            <div className="mt-6 flex gap-3">
+            <div className="mt-4 flex gap-3">
               <a
                 href={whatsappLink(t.wa.message)}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`WhatsApp ${t.contacts.newTab}`}
-                className="grid size-12 place-items-center rounded-full bg-[#2fbf71] text-white transition-transform hover:-translate-y-1"
+                className="grid size-11 place-items-center rounded-full bg-[#2fbf71] text-white transition-transform hover:-translate-y-1"
               >
                 <WhatsAppIcon size={22} />
               </a>
@@ -49,7 +49,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Instagram ${site.instagramHandle} ${t.contacts.newTab}`}
-                className="grid size-12 place-items-center rounded-full bg-[linear-gradient(120deg,#7a3fd6,#c2337a,#c9402b)] text-white transition-transform hover:-translate-y-1"
+                className="grid size-11 place-items-center rounded-full bg-[linear-gradient(120deg,#7a3fd6,#c2337a,#c9402b)] text-white transition-transform hover:-translate-y-1"
               >
                 <InstagramIcon size={22} />
               </a>
@@ -57,7 +57,7 @@ export function Footer() {
           </div>
 
           <nav aria-label={t.header.menuTitle}>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-3">
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-1.5">
               {sectionIds.map((id) => (
                 <li key={id}>
                   <a href={`#${id}`} onClick={(e) => onNav(e, id)} className="inline-block py-1 font-bold text-white/85 transition-colors hover:text-sun">
@@ -86,7 +86,7 @@ export function Footer() {
           </ul>
         </div>
         <div className="border-t border-white/10">
-          <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-4 px-4 py-6 pb-[max(24px,env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:px-6 xl:px-10">
+          <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-3 px-4 py-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:px-6 xl:px-10">
             <p className="text-sm text-white/60">
               © {year} {site.name}. {t.footer.rights}
             </p>

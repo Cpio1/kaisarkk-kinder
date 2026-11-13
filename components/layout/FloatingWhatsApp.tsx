@@ -40,10 +40,10 @@ export function FloatingWhatsApp() {
           exit={{ opacity: 0, scale: 0.4, y: 20 }}
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="fixed right-4 bottom-[max(16px,env(safe-area-inset-bottom))] z-40 grid size-14 place-items-center rounded-full border-2 border-ink bg-[#2fbf71] text-white shadow-[0_4px_0_0_rgb(42_44_51/0.9)] lg:hidden"
+          className="fixed right-4 bottom-[max(16px,env(safe-area-inset-bottom))] z-40 grid size-12 place-items-center rounded-full border-2 border-ink bg-[#2fbf71] text-white shadow-[0_4px_0_0_rgb(42_44_51/0.9)] lg:hidden"
         >
           <span className="absolute inset-0 animate-ping rounded-full bg-[#2fbf71] opacity-30 [animation-duration:2.4s]" aria-hidden="true" />
-          <WhatsAppIcon size={28} className="relative" />
+          <WhatsAppIcon size={24} className="relative" />
         </motion.a>
       ) : null}
     </AnimatePresence>

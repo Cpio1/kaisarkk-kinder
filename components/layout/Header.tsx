@@ -66,15 +66,15 @@ function Logo({ lang, label }: { lang: Locale; label: string }) {
     }
   };
   return (
-    <a href={localePath(lang)} onClick={onClick} aria-label={label} className="group flex shrink-0 items-center gap-2.5">
-      <span className="relative grid size-10 place-items-center rounded-[14px] bg-sun shadow-[0_3px_0_0_rgb(42_44_51/0.85)] transition-transform duration-300 group-hover:-rotate-6 lg:size-11">
-        <svg viewBox="0 0 32 32" className="size-6" aria-hidden="true">
+    <a href={localePath(lang)} onClick={onClick} aria-label={label} className="group flex shrink-0 items-center gap-2">
+      <span className="relative grid size-9 place-items-center rounded-[12px] bg-sun shadow-[0_3px_0_0_rgb(42_44_51/0.85)] transition-transform duration-300 group-hover:-rotate-6 lg:size-10">
+        <svg viewBox="0 0 32 32" className="size-5.5" aria-hidden="true">
           <path d="M5 23 7 10l5.5 6L16 7l3.5 9L25 10l2 13Z" fill="#2a2c33" strokeLinejoin="round" stroke="#2a2c33" strokeWidth="1.6" />
           <circle cx="16" cy="19" r="2" fill="#ffc93c" />
         </svg>
         <span className="absolute -top-1 -right-1 size-3 rounded-full border-2 border-cream bg-coral" />
       </span>
-      <span className="font-display text-[1.05rem] leading-none font-extrabold tracking-tight text-ink lg:text-[1.2rem]">
+      <span className="font-display text-[0.95rem] leading-none font-extrabold tracking-tight text-ink lg:text-[1.1rem]">
         KAISAR<span className="text-coral-deep"> KK</span>
       </span>
     </a>
@@ -95,7 +95,7 @@ function LangSwitch({ active, compact = false }: { active: SectionId | null; com
     <div
       role="group"
       aria-label={t.header.langLabel}
-      className={`relative flex items-center rounded-full border-2 border-ink/10 bg-paper p-1 ${compact ? "" : "shadow-soft"}`}
+      className={`relative flex items-center rounded-full border-2 border-ink/10 bg-paper p-0.5 ${compact ? "" : "shadow-soft"}`}
     >
       {(["kk", "ru"] as const).map((l) => {
         const current = l === lang;
@@ -107,7 +107,7 @@ function LangSwitch({ active, compact = false }: { active: SectionId | null; com
             lang={l}
             onClick={(e) => go(e, l)}
             aria-current={current ? "true" : undefined}
-            className={`relative z-10 grid h-9 min-w-11 place-items-center rounded-full px-2.5 text-[0.8rem] font-extrabold tracking-wide transition-colors ${
+            className={`relative z-10 grid h-8 min-w-10 place-items-center rounded-full px-2 text-[0.76rem] font-extrabold tracking-wide transition-colors ${
               current ? "text-white" : "text-ink-soft hover:text-ink"
             }`}
           >
@@ -153,7 +153,7 @@ function DesktopHeader({ active, scrolled }: { active: SectionId | null; scrolle
                   href={`#${id}`}
                   onClick={(e) => onNav(e, id)}
                   aria-current={isActive ? "location" : undefined}
-                  className={`relative block rounded-full px-2.5 py-2 text-[0.92rem] font-bold whitespace-nowrap transition-colors xl:px-3.5 xl:text-[0.95rem] ${
+                  className={`relative block rounded-full px-2.5 py-1.5 text-[0.86rem] font-bold whitespace-nowrap transition-colors xl:px-3 xl:text-[0.9rem] ${
                     isActive ? "text-ink" : "text-ink-soft hover:text-ink"
                   }`}
                 >
@@ -180,7 +180,7 @@ function DesktopHeader({ active, scrolled }: { active: SectionId | null; scrolle
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.96 }}
           aria-label={`${t.header.whatsapp} ${t.contacts.newTab}`}
-          className="group inline-flex h-12 items-center gap-2 rounded-full bg-coral-deep px-3.5 font-extrabold text-white shadow-[0_4px_0_0_rgb(42_44_51/0.85)] xl:px-5"
+          className="group inline-flex h-11 items-center gap-2 rounded-full bg-coral-deep px-3.5 font-extrabold text-white shadow-[0_4px_0_0_rgb(42_44_51/0.85)] xl:px-5"
         >
           <WhatsAppIcon size={20} className="transition-transform duration-300 group-hover:rotate-12" />
           <span className="hidden xl:inline">{t.header.whatsapp}</span>
@@ -194,7 +194,7 @@ function DesktopHeader({ active, scrolled }: { active: SectionId | null; scrolle
 /* Мобильная шапка и меню                                              */
 /* ------------------------------------------------------------------ */
 
-const dotColors = ["bg-coral", "bg-teal", "bg-sun", "bg-lilac", "bg-coral", "bg-teal"];
+const dotColors = ["bg-coral", "bg-teal", "bg-sun", "bg-lilac", "bg-coral", "bg-teal", "bg-sun"];
 
 function MobileHeader({ active }: { active: SectionId | null }) {
   const { lang, t } = useLang();
@@ -258,7 +258,7 @@ function MobileHeader({ active }: { active: SectionId | null }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${t.header.whatsapp} ${t.contacts.newTab}`}
-            className="hidden size-11 place-items-center rounded-full bg-coral-deep text-white shadow-[0_3px_0_0_rgb(42_44_51/0.85)] min-[400px]:grid"
+            className="hidden size-10 place-items-center rounded-full bg-coral-deep text-white shadow-[0_3px_0_0_rgb(42_44_51/0.85)] min-[400px]:grid"
           >
             <WhatsAppIcon size={20} />
           </a>
@@ -269,9 +269,9 @@ function MobileHeader({ active }: { active: SectionId | null }) {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={t.header.menuOpen}
-            className="grid size-11 place-items-center rounded-full bg-ink text-white shadow-[0_3px_0_0_rgb(42_44_51/0.35)]"
+            className="grid size-10 place-items-center rounded-full bg-ink text-white shadow-[0_3px_0_0_rgb(42_44_51/0.35)]"
           >
-            <Menu size={22} aria-hidden="true" />
+            <Menu size={20} aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -286,9 +286,9 @@ function MobileHeader({ active }: { active: SectionId | null }) {
             aria-modal="true"
             aria-label={t.header.menuTitle}
             className="fixed inset-0 z-[60] flex flex-col bg-cream"
-            initial={{ clipPath: "circle(0px at calc(100% - 38px) 32px)" }}
-            animate={{ clipPath: "circle(150% at calc(100% - 38px) 32px)" }}
-            exit={{ clipPath: "circle(0px at calc(100% - 38px) 32px)" }}
+            initial={{ clipPath: "circle(0px at calc(100% - 36px) 30px)" }}
+            animate={{ clipPath: "circle(150% at calc(100% - 36px) 30px)" }}
+            exit={{ clipPath: "circle(0px at calc(100% - 36px) 30px)" }}
             transition={{ duration: 0.55, ease: [0.65, 0, 0.35, 1] }}
           >
             <div className="bg-dots pointer-events-none absolute inset-0" aria-hidden="true" />
@@ -298,14 +298,14 @@ function MobileHeader({ active }: { active: SectionId | null }) {
                 type="button"
                 onClick={close}
                 aria-label={t.header.menuClose}
-                className="grid size-11 place-items-center rounded-full bg-ink text-white"
+                className="grid size-10 place-items-center rounded-full bg-ink text-white"
               >
-                <X size={22} aria-hidden="true" />
+                <X size={20} aria-hidden="true" />
               </button>
             </div>
 
-            <nav aria-label={t.header.menuTitle} className="relative mx-auto w-full max-w-3xl flex-1 overflow-y-auto px-4 pt-4 pb-6 sm:px-6">
-              <ul className="flex flex-col gap-2">
+            <nav aria-label={t.header.menuTitle} className="relative mx-auto w-full max-w-3xl flex-1 overflow-y-auto px-4 pt-2 pb-[max(20px,env(safe-area-inset-bottom))] sm:px-6">
+              <ul className="flex flex-col gap-1.5">
                 {sectionIds.map((id, i) => (
                   <motion.li
                     key={id}
@@ -319,14 +319,14 @@ function MobileHeader({ active }: { active: SectionId | null }) {
                       href={`#${id}`}
                       onClick={(e) => onNav(e, id)}
                       aria-current={active === id ? "location" : undefined}
-                      className={`flex min-h-14 items-center gap-4 rounded-[22px] border-2 px-4 py-3 transition-colors active:scale-[0.99] ${
+                      className={`flex min-h-12 items-center gap-3 rounded-[18px] border-2 px-3.5 py-2 transition-colors active:scale-[0.99] ${
                         active === id ? "border-ink bg-sun-soft" : "border-ink/10 bg-paper"
                       }`}
                     >
-                      <span className={`grid size-9 shrink-0 place-items-center rounded-full font-display text-xs font-bold text-ink ${dotColors[i]}`}>
+                      <span className={`grid size-8 shrink-0 place-items-center rounded-full font-display text-[0.7rem] font-bold text-ink ${dotColors[i]}`}>
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="font-display text-lg font-bold text-ink">{t.nav[id]}</span>
+                      <span className="font-display text-base font-bold text-ink">{t.nav[id]}</span>
                     </a>
                   </motion.li>
                 ))}
@@ -337,13 +337,13 @@ function MobileHeader({ active }: { active: SectionId | null }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ delay: 0.45 }}
-                className="mt-6 grid grid-cols-2 gap-3"
+                className="mt-4 grid grid-cols-2 gap-2.5"
               >
                 <a
                   href={whatsappLink(t.wa.message)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-14 items-center justify-center gap-2 rounded-[20px] bg-coral-deep px-3 font-extrabold text-white shadow-[0_4px_0_0_rgb(42_44_51/0.85)]"
+                  className="flex min-h-12 items-center justify-center gap-2 rounded-[18px] bg-coral-deep px-3 font-extrabold text-white shadow-[0_4px_0_0_rgb(42_44_51/0.85)]"
                 >
                   <WhatsAppIcon size={20} /> WhatsApp
                 </a>
@@ -351,13 +351,13 @@ function MobileHeader({ active }: { active: SectionId | null }) {
                   href={site.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-14 items-center justify-center gap-2 rounded-[20px] bg-[linear-gradient(120deg,#7a3fd6_0%,#c2337a_55%,#c9402b_100%)] px-3 font-extrabold text-white shadow-[0_4px_0_0_rgb(42_44_51/0.85)]"
+                  className="flex min-h-12 items-center justify-center gap-2 rounded-[18px] bg-[linear-gradient(120deg,#7a3fd6_0%,#c2337a_55%,#c9402b_100%)] px-3 font-extrabold text-white shadow-[0_4px_0_0_rgb(42_44_51/0.85)]"
                 >
                   <InstagramIcon size={20} /> Instagram
                 </a>
                 <a
                   href={site.phoneHref}
-                  className="col-span-2 flex min-h-14 items-center justify-between gap-3 rounded-[20px] border-2 border-ink/10 bg-paper px-4 font-bold"
+                  className="col-span-2 flex min-h-12 items-center justify-between gap-3 rounded-[18px] border-2 border-ink/10 bg-paper px-4 font-bold"
                 >
                   <span className="flex items-center gap-2">
                     <Phone size={18} aria-hidden="true" className="text-teal-deep" /> {site.phoneDisplay}
