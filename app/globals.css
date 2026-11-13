@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #fff8ec;
+  --color-cream-deep: #fcefd8;
+  --color-paper: #fffdf8;
+  --color-sun: #ffc93c;
+  --color-sun-soft: #ffe9a8;
+  --color-sun-deep: #b97f00;
+  --color-teal: #4fc4b8;
+  --color-teal-soft: #d3f2ee;
+  --color-teal-deep: #17776e;
+  --color-coral: #ff7a66;
+  --color-coral-soft: #ffe0da;
+  --color-coral-deep: #c9402b;
+  --color-lilac: #c7b8f2;
+  --color-lilac-soft: #eee9fd;
+  --color-lilac-deep: #5d4aa8;
+  --color-ink: #2a2c33;
+  --color-ink-soft: #565a66;
+
+  --font-display: var(--font-unbounded), "Arial Rounded MT Bold", system-ui, sans-serif;
+  --font-sans: var(--font-nunito), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --shadow-soft: 0 10px 30px -12px rgb(42 44 51 / 0.18);
+  --shadow-lift: 0 22px 44px -18px rgb(42 44 51 / 0.28);
+  --shadow-pop: 0 6px 0 0 rgb(42 44 51 / 0.9);
+
+  --radius-blob: 42% 58% 55% 45% / 48% 42% 58% 52%;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 10s ease-in-out infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-wiggle: wiggle 5s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0) rotate(4deg);
+    }
+  }
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-6deg);
+    }
+    50% {
+      transform: rotate(6deg);
+    }
+  }
+}
+
+:root {
+  --header-h: 64px;
+  --section-offset: 64px;
+  color-scheme: light;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 80px;
+    --section-offset: 72px;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Заголовок раздела остаётся видимым под фиксированной шапкой */
+section[id] {
+  scroll-margin-top: var(--section-offset);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--color-sun-soft);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-teal-deep);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* Декоративный фон «бумага в точку» */
+.bg-dots {
+  background-image: radial-gradient(rgb(42 44 51 / 0.07) 1.2px, transparent 1.3px);
+  background-size: 22px 22px;
+}
+
+.blob {
+  border-radius: var(--radius-blob);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
