@@ -19,4 +19,4 @@ export type DocumentEntry = {
 
 export const documents: DocumentEntry[] = [];
 
-export const documentsFolderUrl = "";
+export const documentsFolderUrl = "https://cloud.mail.ru/public/RCYN/AMbKCUh8Q";
