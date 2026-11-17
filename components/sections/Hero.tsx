@@ -15,10 +15,47 @@ import type { HeroImage } from "@/lib/media";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** Фото или иллюстрация. Рамка повторяет пропорции файла, поэтому фото не обрезается. */
-function HeroPicture({ image, alt, illustrationAlt, sizes }: { image: HeroImage | null; alt: string; illustrationAlt: string; sizes: string }) {
+/**
+ * Формат рамки главного фото.
+ * Горизонтальное фото и иллюстрация показываются в своих пропорциях.
+ * Вертикальное фото (телефонный кадр 9:16) было бы слишком длинным, поэтому
+ * кладём его в более широкую рамку: квадрат на десктопе, 4:3 на мобильном.
+ * Ширина кадра сохраняется целиком, срезаются только края неба и площадки.
+ * HERO_FOCUS — какая часть фото по вертикали остаётся в кадре (здание с вывеской).
+ */
+const HERO_FRAME = { desktop: 1, mobile: 4 / 3 };
+const HERO_FOCUS = "50% 48%";
+
+function frameOf(image: HeroImage | null, target: number) {
+  if (!image) return { ratio: 1, cropped: false };
+  return image.ratio < 1 ? { ratio: target, cropped: true } : { ratio: image.ratio, cropped: false };
+}
+
+/** Фото или иллюстрация. */
+function HeroPicture({
+  image,
+  alt,
+  illustrationAlt,
+  sizes,
+  cropped,
+}: {
+  image: HeroImage | null;
+  alt: string;
+  illustrationAlt: string;
+  sizes: string;
+  cropped: boolean;
+}) {
   return image ? (
-    <Image src={image.src} alt={alt} fill preload sizes={sizes} quality={80} className="object-cover" />
+    <Image
+      src={image.src}
+      alt={alt}
+      fill
+      preload
+      sizes={sizes}
+      quality={80}
+      className="object-cover"
+      style={cropped ? { objectPosition: HERO_FOCUS } : undefined}
+    />
   ) : (
     <KindergartenIllustration title={illustrationAlt} className="absolute inset-0 size-full" />
   );
@@ -78,9 +115,6 @@ const statStyles = [
   { box: "rounded-[6px_22px_22px_22px] bg-coral-soft", rotate: -2 },
 ];
 
-/** Пропорции рамки: фото — как у файла, иллюстрация — квадрат. */
-const ratioOf = (image: HeroImage | null) => image?.ratio ?? 1;
-
 function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
   const { t } = useLang();
   const ref = useRef<HTMLDivElement>(null);
@@ -88,8 +122,9 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yPhoto = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 40]);
   const yShapes = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -30]);
-  const ratio = ratioOf(heroImage);
-  const portrait = ratio < 1;
+  const { ratio, cropped } = frameOf(heroImage, HERO_FRAME.desktop);
+  // Обрезанное фото — компактная арка; иллюстрация и горизонтальное фото — «листик».
+  const shape = cropped ? "rounded-[120px_120px_28px_28px]" : "rounded-[32px_32px_32px_96px]";
 
   const onMore = (e: MouseEvent) => {
     e.preventDefault();
@@ -162,14 +197,14 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
         </ul>
       </div>
 
-      {/* Правая колонка: фото в пропорциях файла */}
-      <div className={`relative flex items-center ${portrait ? "justify-end pr-4 xl:justify-center xl:pl-28" : "justify-center"}`}>
+      {/* Правая колонка: фото */}
+      <div className="relative flex items-center justify-center">
         <motion.div
           style={{ y: yPhoto, aspectRatio: ratio }}
           initial={{ opacity: 0, scale: 0.94, rotate: -3 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 1, ease }}
-          className={`relative ${portrait ? "h-[min(440px,calc(100svh-var(--header-h)-110px))] max-w-full" : "w-[80%]"}`}
+          className="relative w-[min(80%,calc(100svh-var(--header-h)-130px))] max-w-[400px]"
         >
           {/* Декор вокруг рамки, а не поверх фото */}
           <motion.div style={{ y: yShapes }} className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -179,14 +214,15 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
             <Flower className="absolute -bottom-3 -left-3 size-6" float="spin" />
           </motion.div>
 
-          <div
-            className={`absolute inset-0 translate-x-2.5 translate-y-2.5 bg-teal ${portrait ? "rounded-[999px_999px_32px_32px]" : "rounded-[32px_32px_32px_96px]"}`}
-            aria-hidden="true"
-          />
-          <div
-            className={`relative size-full overflow-hidden border-[3px] border-ink bg-teal-soft ${portrait ? "rounded-[999px_999px_32px_32px]" : "rounded-[32px_32px_32px_96px]"}`}
-          >
-            <HeroPicture image={heroImage} alt={t.hero.photoAlt} illustrationAlt={t.hero.illustrationAlt} sizes="(min-width: 1024px) 360px, 1px" />
+          <div className={`absolute inset-0 translate-x-2.5 translate-y-2.5 bg-teal ${shape}`} aria-hidden="true" />
+          <div className={`relative size-full overflow-hidden border-[3px] border-ink bg-teal-soft ${shape}`}>
+            <HeroPicture
+              image={heroImage}
+              alt={t.hero.photoAlt}
+              illustrationAlt={t.hero.illustrationAlt}
+              sizes="(min-width: 1024px) 400px, 1px"
+              cropped={cropped}
+            />
           </div>
 
           {/* Стикер с режимом работы — рядом с фото */}
@@ -195,9 +231,7 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
             animate={{ opacity: 1, scale: 1, rotate: -5 }}
             whileHover={{ rotate: 0, scale: 1.05 }}
             transition={{ type: "spring", stiffness: 200, damping: 14, delay: 0.9 }}
-            className={`absolute flex flex-col items-start gap-1 rounded-[18px] border-2 border-ink bg-paper px-3 py-2.5 shadow-[0_4px_0_0_rgb(42_44_51/0.85)] ${
-              portrait ? "right-[calc(100%+18px)] bottom-[16%]" : "-bottom-5 -left-4"
-            }`}
+            className="absolute -bottom-5 -left-8 flex flex-col items-start gap-1 rounded-[18px] border-2 border-ink bg-paper px-3 py-2.5 shadow-[0_4px_0_0_rgb(42_44_51/0.85)]"
           >
             <span className="grid size-7 place-items-center rounded-full bg-sun">
               <Clock size={14} aria-hidden="true" />
@@ -223,18 +257,17 @@ const mobileStat = [
 
 function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
   const { t } = useLang();
-  const ratio = ratioOf(heroImage);
-  const portrait = ratio < 1;
+  const { ratio, cropped } = frameOf(heroImage, HERO_FRAME.mobile);
 
   const stats = (
-    <ul className={portrait ? "flex flex-col gap-2" : "grid grid-cols-3 gap-2"} aria-label={`${site.groups} · ${site.ages} · ${site.meals}`}>
+    <ul className="grid grid-cols-3 gap-2" aria-label={`${site.groups} · ${site.ages} · ${site.meals}`}>
       {t.hero.stats.map((s, i) => (
         <motion.li
           key={s.label}
           initial={{ opacity: 0, x: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 + 0.1 * i, type: "spring", stiffness: 220, damping: 20 }}
-          className={`flex flex-col justify-center px-3 py-2 ${portrait ? "min-h-[50px]" : "min-h-[54px] items-center text-center"} ${mobileStat[i]}`}
+          className={`flex min-h-[54px] flex-col items-center justify-center px-2 py-2 text-center ${mobileStat[i]}`}
         >
           <span className="font-display text-[1.05rem] leading-none font-extrabold">{s.value}</span>
           <span className="mt-1 text-[0.72rem] leading-tight font-bold text-ink/80">{s.label}</span>
@@ -288,47 +321,30 @@ function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
         </ButtonLink>
       </motion.div>
 
-      {portrait ? (
-        /* Вертикальное фото слева, факты — колонкой справа */
-        <div className="mx-auto mt-5 grid w-full max-w-[400px] grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-end gap-3">
-          <motion.div
-            initial={{ opacity: 0, y: 24, rotate: -2 }}
-            animate={{ opacity: 1, y: 0, rotate: 0 }}
-            transition={{ duration: 0.9, delay: 0.35, ease }}
-            className="relative mr-1.5 mb-1.5"
-            style={{ aspectRatio: ratio }}
-          >
-            <div className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-[999px_999px_22px_22px] bg-teal" aria-hidden="true" />
-            <div className="relative size-full overflow-hidden rounded-[999px_999px_22px_22px] border-[3px] border-ink bg-teal-soft">
-              <HeroPicture image={heroImage} alt={t.hero.photoAlt} illustrationAlt={t.hero.illustrationAlt} sizes="(max-width: 1023px) 55vw, 1px" />
-            </div>
-          </motion.div>
-          <div className="relative flex flex-col gap-2 pb-1.5">
-            <Ball className="mb-1 ml-2 size-4" color="coral" float="slow" />
-            {stats}
-            {hours}
-          </div>
+      {/* Широкое фото с мягкими углами, факты — строкой под ним */}
+      <motion.div
+        initial={{ opacity: 0, y: 24, rotate: -2 }}
+        animate={{ opacity: 1, y: 0, rotate: 0 }}
+        transition={{ duration: 0.9, delay: 0.35, ease }}
+        className="relative mt-5 mr-1.5"
+      >
+        <Ball className="absolute -top-2.5 -left-1.5 z-10 size-4" color="coral" float="slow" />
+        <div className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-[26px_26px_26px_70px] bg-teal" aria-hidden="true" />
+        <div className="relative overflow-hidden rounded-[26px_26px_26px_70px] border-[3px] border-ink bg-teal-soft" style={{ aspectRatio: ratio }}>
+          <HeroPicture
+            image={heroImage}
+            alt={t.hero.photoAlt}
+            illustrationAlt={t.hero.illustrationAlt}
+            sizes="(max-width: 1023px) 92vw, 1px"
+            cropped={cropped}
+          />
         </div>
-      ) : (
-        <>
-          <motion.div
-            initial={{ opacity: 0, y: 24, rotate: -2 }}
-            animate={{ opacity: 1, y: 0, rotate: 0 }}
-            transition={{ duration: 0.9, delay: 0.35, ease }}
-            className="relative mt-5 mr-1.5"
-          >
-            <div className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-[26px_26px_26px_70px] bg-teal" aria-hidden="true" />
-            <div className="relative overflow-hidden rounded-[26px_26px_26px_70px] border-[3px] border-ink bg-teal-soft" style={{ aspectRatio: ratio }}>
-              <HeroPicture image={heroImage} alt={t.hero.photoAlt} illustrationAlt={t.hero.illustrationAlt} sizes="(max-width: 1023px) 92vw, 1px" />
-            </div>
-            <Squiggle className="absolute -bottom-3 right-5 w-12" color="coral" float="slow" />
-          </motion.div>
-          <div className="mt-4 flex flex-col gap-2">
-            {stats}
-            {hours}
-          </div>
-        </>
-      )}
+        <Squiggle className="absolute right-5 -bottom-3 w-12" color="coral" float="slow" />
+      </motion.div>
+      <div className="mt-4 flex flex-col gap-2">
+        {stats}
+        {hours}
+      </div>
     </div>
   );
 }
