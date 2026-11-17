@@ -99,21 +99,21 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
   return (
     <div
       ref={ref}
-      className="relative mx-auto hidden min-h-[min(calc(100svh-var(--header-h)),800px)] max-w-[1240px] grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] items-center gap-10 px-6 py-6 lg:grid xl:gap-14 xl:px-10"
+      className="relative mx-auto hidden min-h-[min(calc(100svh-var(--header-h)),640px)] max-w-[1160px] grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] items-center gap-8 px-6 py-5 lg:grid xl:gap-10 xl:px-10"
     >
       {/* Левая колонка: текст */}
-      <div className="relative z-10 flex flex-col gap-5">
+      <div className="relative z-10 flex flex-col gap-4">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex w-fit items-center gap-2 rounded-full border-2 border-ink/10 bg-paper px-3.5 py-1.5 text-[0.82rem] font-extrabold text-ink shadow-soft"
+          className="inline-flex w-fit items-center gap-2 rounded-full border-2 border-ink/10 bg-paper px-3 py-1 text-[0.76rem] font-extrabold text-ink shadow-soft"
         >
           <Sparkle className="size-3.5" float="spin" color="coral" />
           {t.hero.eyebrow}
         </motion.p>
 
-        <h1 className="text-[clamp(2.1rem,2.3vw+0.85rem,3rem)] leading-[1.1] font-extrabold tracking-[-0.02em] text-ink">
+        <h1 className="text-[clamp(1.75rem,1.7vw+0.8rem,2.4rem)] leading-[1.1] font-extrabold tracking-[-0.02em] text-ink">
           <TitleWords />
         </h1>
 
@@ -121,7 +121,7 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35 }}
-          className="max-w-[32rem] text-base leading-relaxed text-ink-soft xl:text-[1.05rem]"
+          className="max-w-[30rem] text-[0.94rem] leading-relaxed text-ink-soft xl:text-[0.98rem]"
         >
           {t.hero.subtitle}
         </motion.p>
@@ -153,10 +153,10 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
               animate={{ opacity: 1, y: 0, rotate: statStyles[i].rotate }}
               whileHover={{ rotate: 0, y: -4, scale: 1.04 }}
               transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.55 + i * 0.1 }}
-              className={`flex min-h-[68px] min-w-[108px] flex-col justify-center px-4 py-2.5 shadow-soft ${statStyles[i].box}`}
+              className={`flex min-h-[54px] min-w-[88px] flex-col justify-center px-3.5 py-2 shadow-soft ${statStyles[i].box}`}
             >
-              <span className="font-display text-[1.45rem] leading-none font-extrabold text-ink">{s.value}</span>
-              <span className="mt-1 text-[0.8rem] leading-tight font-bold text-ink/80">{s.label}</span>
+              <span className="font-display text-[1.15rem] leading-none font-extrabold text-ink">{s.value}</span>
+              <span className="mt-1 text-[0.72rem] leading-tight font-bold text-ink/80">{s.label}</span>
             </motion.li>
           ))}
         </ul>
@@ -169,14 +169,14 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
           initial={{ opacity: 0, scale: 0.94, rotate: -3 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 1, ease }}
-          className={`relative ${portrait ? "h-[min(580px,calc(100svh-var(--header-h)-84px))] max-w-full" : "w-[92%]"}`}
+          className={`relative ${portrait ? "h-[min(440px,calc(100svh-var(--header-h)-110px))] max-w-full" : "w-[80%]"}`}
         >
           {/* Декор вокруг рамки, а не поверх фото */}
           <motion.div style={{ y: yShapes }} className="pointer-events-none absolute inset-0" aria-hidden="true">
-            <Ring className="absolute -top-4 -left-5 size-9" color="teal" float="slow" />
-            <Star className="absolute -top-5 -right-5 size-9" float="wiggle" />
-            <Triangle className="absolute top-[42%] -right-7 size-6" float="float" delay={1} />
-            <Flower className="absolute -bottom-4 -left-4 size-8" float="spin" />
+            <Ring className="absolute -top-3 -left-4 size-7" color="teal" float="slow" />
+            <Star className="absolute -top-4 -right-4 size-7" float="wiggle" />
+            <Triangle className="absolute top-[42%] -right-6 size-5" float="float" delay={1} />
+            <Flower className="absolute -bottom-3 -left-3 size-6" float="spin" />
           </motion.div>
 
           <div
@@ -195,15 +195,15 @@ function DesktopHero({ heroImage }: { heroImage: HeroImage | null }) {
             animate={{ opacity: 1, scale: 1, rotate: -5 }}
             whileHover={{ rotate: 0, scale: 1.05 }}
             transition={{ type: "spring", stiffness: 200, damping: 14, delay: 0.9 }}
-            className={`absolute flex flex-col items-start gap-1.5 rounded-[20px] border-2 border-ink bg-paper px-3.5 py-3 shadow-[0_4px_0_0_rgb(42_44_51/0.85)] ${
+            className={`absolute flex flex-col items-start gap-1 rounded-[18px] border-2 border-ink bg-paper px-3 py-2.5 shadow-[0_4px_0_0_rgb(42_44_51/0.85)] ${
               portrait ? "right-[calc(100%+18px)] bottom-[16%]" : "-bottom-5 -left-4"
             }`}
           >
-            <span className="grid size-8 place-items-center rounded-full bg-sun">
-              <Clock size={16} aria-hidden="true" />
+            <span className="grid size-7 place-items-center rounded-full bg-sun">
+              <Clock size={14} aria-hidden="true" />
             </span>
             <span className="text-[0.72rem] leading-tight font-bold text-ink-soft">{t.hero.hoursLabel}</span>
-            <span className="font-display text-[0.95rem] leading-tight font-bold whitespace-nowrap">{site.hours}</span>
+            <span className="font-display text-[0.86rem] leading-tight font-bold whitespace-nowrap">{site.hours}</span>
           </motion.div>
         </motion.div>
       </div>
@@ -234,9 +234,9 @@ function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
           initial={{ opacity: 0, x: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 + 0.1 * i, type: "spring", stiffness: 220, damping: 20 }}
-          className={`flex flex-col justify-center px-3 py-2 ${portrait ? "min-h-[58px]" : "min-h-[64px] items-center text-center"} ${mobileStat[i]}`}
+          className={`flex flex-col justify-center px-3 py-2 ${portrait ? "min-h-[50px]" : "min-h-[54px] items-center text-center"} ${mobileStat[i]}`}
         >
-          <span className="font-display text-[1.2rem] leading-none font-extrabold">{s.value}</span>
+          <span className="font-display text-[1.05rem] leading-none font-extrabold">{s.value}</span>
           <span className="mt-1 text-[0.72rem] leading-tight font-bold text-ink/80">{s.label}</span>
         </motion.li>
       ))}
@@ -256,8 +256,8 @@ function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
   );
 
   return (
-    <div className="relative mx-auto flex max-w-xl flex-col px-4 pt-3 pb-6 sm:px-6 lg:hidden">
-      <Star className="absolute top-2 right-4 size-6" float="wiggle" />
+    <div className="relative mx-auto flex max-w-xl flex-col px-4 pt-2 pb-5 sm:px-6 lg:hidden">
+      <Star className="absolute top-2 right-4 size-5" float="wiggle" />
 
       <motion.p
         initial={{ opacity: 0, y: 10 }}
@@ -269,7 +269,7 @@ function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
         {t.hero.eyebrow}
       </motion.p>
 
-      <h1 className="mt-3 pr-7 text-[clamp(1.6rem,7.4vw,2.3rem)] leading-[1.12] font-extrabold tracking-[-0.015em]">
+      <h1 className="mt-2.5 pr-6 text-[clamp(1.4rem,6.4vw,1.95rem)] leading-[1.12] font-extrabold tracking-[-0.015em]">
         <TitleWords />
       </h1>
 
@@ -277,12 +277,12 @@ function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="mt-3 text-[0.94rem] leading-relaxed text-ink-soft"
+        className="mt-2.5 text-[0.88rem] leading-relaxed text-ink-soft"
       >
         {t.hero.subtitle}
       </motion.p>
 
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-4">
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-3.5">
         <ButtonLink href={whatsappLink(t.wa.message)} external className="w-full" icon={<WhatsAppIcon size={20} />}>
           {t.hero.cta}
         </ButtonLink>
@@ -290,7 +290,7 @@ function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
 
       {portrait ? (
         /* Вертикальное фото слева, факты — колонкой справа */
-        <div className="mt-6 grid grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-end gap-3">
+        <div className="mx-auto mt-5 grid w-full max-w-[400px] grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-end gap-3">
           <motion.div
             initial={{ opacity: 0, y: 24, rotate: -2 }}
             animate={{ opacity: 1, y: 0, rotate: 0 }}
@@ -315,7 +315,7 @@ function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
             initial={{ opacity: 0, y: 24, rotate: -2 }}
             animate={{ opacity: 1, y: 0, rotate: 0 }}
             transition={{ duration: 0.9, delay: 0.35, ease }}
-            className="relative mt-6 mr-1.5"
+            className="relative mt-5 mr-1.5"
           >
             <div className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-[26px_26px_26px_70px] bg-teal" aria-hidden="true" />
             <div className="relative overflow-hidden rounded-[26px_26px_26px_70px] border-[3px] border-ink bg-teal-soft" style={{ aspectRatio: ratio }}>
@@ -323,7 +323,7 @@ function MobileHero({ heroImage }: { heroImage: HeroImage | null }) {
             </div>
             <Squiggle className="absolute -bottom-3 right-5 w-12" color="coral" float="slow" />
           </motion.div>
-          <div className="mt-5 flex flex-col gap-2">
+          <div className="mt-4 flex flex-col gap-2">
             {stats}
             {hours}
           </div>

@@ -28,7 +28,7 @@ export function Footer() {
     <footer className="relative bg-cream">
       <WaveDivider fill="#2a2c33" />
       <div className="bg-ink text-white">
-        <div className="mx-auto grid max-w-[1240px] gap-7 px-4 pt-7 pb-7 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr] lg:gap-12 lg:pt-10 lg:pb-10 xl:px-10">
+        <div className="mx-auto grid max-w-[1160px] gap-6 px-4 pt-6 pb-6 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr] lg:gap-10 lg:pt-8 lg:pb-8 xl:px-10">
           <div>
             <p className="font-display text-xl font-extrabold">
               KAISAR<span className="text-sun"> KK</span>
@@ -86,7 +86,7 @@ export function Footer() {
           </ul>
         </div>
         <div className="border-t border-white/10">
-          <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-3 px-4 py-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:px-6 xl:px-10">
+          <div className="mx-auto flex max-w-[1160px] flex-col items-start justify-between gap-3 px-4 py-4 pb-[max(16px,env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:px-6 xl:px-10">
             <p className="text-sm text-white/60">
               © {year} {site.name}. {t.footer.rights}
             </p>

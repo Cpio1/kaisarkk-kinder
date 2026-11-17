@@ -66,6 +66,12 @@
   }
 }
 
+html,
+body {
+  /* Страховка от горизонтальной прокрутки из-за декоративных фигурок */
+  overflow-x: clip;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -88,7 +94,7 @@ section[id] {
 
 /* Якорь внутри секции (например, «Топтар»): шапка + небольшой зазор */
 [data-anchor] {
-  scroll-margin-top: calc(var(--header-h) + 16px);
+  scroll-margin-top: calc(var(--header-h) + 12px);
 }
 
 h1,

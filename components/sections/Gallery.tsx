@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { AnimatePresence, motion, type PanInfo } from "motion/react";
 import { ChevronLeft, ChevronRight, Expand, ImagePlus, Plus, X } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLang } from "@/components/Providers";
 import { Ball, Cloud, Sparkle, Star } from "@/components/decor/Shapes";
@@ -13,16 +13,16 @@ import { InstagramIcon } from "@/components/ui/BrandIcons";
 import { site } from "@/lib/site";
 import type { Photo } from "@/lib/media";
 
-const DESKTOP_STEP = 8;
-const MOBILE_STEP = 5;
+const DESKTOP_STEP = 9;
+const MOBILE_STEP = 6;
 
 const radii = [
-  "rounded-[22px]",
-  "rounded-[22px_22px_60px_22px]",
-  "rounded-[60px_22px_22px_22px]",
-  "rounded-[22px]",
-  "rounded-[22px_60px_22px_22px]",
-  "rounded-[22px_22px_22px_60px]",
+  "rounded-[16px]",
+  "rounded-[16px_16px_40px_16px]",
+  "rounded-[40px_16px_16px_16px]",
+  "rounded-[16px]",
+  "rounded-[16px_40px_16px_16px]",
+  "rounded-[16px_16px_16px_40px]",
 ];
 
 function useAlt() {
@@ -30,48 +30,9 @@ function useAlt() {
   return (p: Photo, i: number) => p.alt?.[lang] ?? `${t.gallery.photo} ${i + 1} — KAISAR KK`;
 }
 
-/**
- * Раскладка «ровными рядами»: фото делятся на ряды так, чтобы сумма их пропорций
- * была близка к целевой. В ряду каждая плитка растёт пропорционально своему фото,
- * поэтому все плитки ряда одной высоты и ни одно фото не обрезается.
- * pattern — целевая «ширина» рядов по очереди (например, 1 большое фото, затем 2).
- */
-function packRows(photos: Photo[], pattern: number[]): Photo[][] {
-  const n = photos.length;
-  if (n === 0) return [];
-  const sums = [0];
-  photos.forEach((p) => sums.push(sums[sums.length - 1] + p.ratio));
-  // best[i][r] — минимальная «ошибка» для первых i фото, уложенных в r рядов
-  const best: number[][] = Array.from({ length: n + 1 }, () => Array(n + 1).fill(Infinity));
-  const from: number[][] = Array.from({ length: n + 1 }, () => Array(n + 1).fill(-1));
-  best[0][0] = 0;
-  for (let i = 1; i <= n; i++) {
-    for (let r = 1; r <= i; r++) {
-      const target = pattern[(r - 1) % pattern.length];
-      for (let j = r - 1; j < i; j++) {
-        if (best[j][r - 1] === Infinity) continue;
-        const cost = best[j][r - 1] + (sums[i] - sums[j] - target) ** 2;
-        if (cost < best[i][r]) {
-          best[i][r] = cost;
-          from[i][r] = j;
-        }
-      }
-    }
-  }
-  let rows = 1;
-  for (let r = 1; r <= n; r++) if (best[n][r] < best[n][rows]) rows = r;
-  const out: Photo[][] = [];
-  for (let i = n, r = rows; r > 0; r--) {
-    const j = from[i][r];
-    out.unshift(photos.slice(j, i));
-    i = j;
-  }
-  return out;
-}
-
 /* ---------------- Плитка ---------------- */
 
-function Tile({ photo, index, onOpen, sizes }: { photo: Photo; index: number; onOpen: (i: number) => void; sizes: string }) {
+function Tile({ photo, index, onOpen, sizes, className = "" }: { photo: Photo; index: number; onOpen: (i: number) => void; sizes: string; className?: string }) {
   const { t } = useLang();
   const alt = useAlt();
   return (
@@ -80,14 +41,13 @@ function Tile({ photo, index, onOpen, sizes }: { photo: Photo; index: number; on
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: (index % 4) * 0.06 }}
-      className="min-w-0"
-      style={{ flex: `${photo.ratio} 1 0%`, aspectRatio: photo.ratio }}
+      className={`aspect-[16/10] min-w-0 ${className}`}
     >
       <button
         type="button"
         onClick={() => onOpen(index)}
         aria-label={`${t.gallery.open}: ${alt(photo, index)}`}
-        className={`group relative block size-full overflow-hidden border-[3px] border-ink bg-teal-soft ${radii[index % radii.length]}`}
+        className={`group relative block size-full overflow-hidden border-[2.5px] border-ink bg-teal-soft ${radii[index % radii.length]}`}
       >
         <Image
           src={photo.src}
@@ -98,7 +58,7 @@ function Tile({ photo, index, onOpen, sizes }: { photo: Photo; index: number; on
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         />
         <span className="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-        <span className="absolute right-3 bottom-3 grid size-9 translate-y-2 place-items-center rounded-full bg-paper text-ink opacity-0 shadow-soft transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+        <span className="absolute right-2.5 bottom-2.5 grid size-8 translate-y-2 place-items-center rounded-full bg-paper text-ink opacity-0 shadow-soft transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
           <Expand size={16} aria-hidden="true" />
         </span>
       </button>
@@ -109,13 +69,13 @@ function Tile({ photo, index, onOpen, sizes }: { photo: Photo; index: number; on
 function MoreButton({ onClick, shown, total }: { onClick: () => void; shown: number; total: number }) {
   const { t } = useLang();
   return (
-    <div className="mt-7 flex flex-col items-center gap-2.5">
+    <div className="mt-5 flex flex-col items-center gap-2">
       <motion.button
         type="button"
         onClick={onClick}
         whileHover={{ y: -3 }}
         whileTap={{ scale: 0.97 }}
-        className="group inline-flex min-h-12 items-center gap-2.5 rounded-full border-2 border-ink bg-sun px-5 font-extrabold shadow-[0_4px_0_0_rgb(42_44_51/0.85)]"
+        className="group inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-ink bg-sun px-4 text-[0.92rem] font-extrabold shadow-[0_4px_0_0_rgb(42_44_51/0.85)]"
       >
         <span className="grid size-7 place-items-center rounded-full bg-paper transition-transform duration-300 group-hover:rotate-90">
           <Plus size={16} aria-hidden="true" />
@@ -129,46 +89,53 @@ function MoreButton({ onClick, shown, total }: { onClick: () => void; shown: num
   );
 }
 
-/** Ряды фото: индексы плиток сквозные, чтобы просмотр открывал нужное фото. */
-function Rows({ rows, onOpen, gap, sizes }: { rows: Photo[][]; onOpen: (i: number) => void; gap: string; sizes: (perRow: number) => string }) {
-  let index = 0;
-  return (
-    <div className={`flex flex-col ${gap}`}>
-      {rows.map((row) => (
-        <ul key={row[0].src} className={`flex ${gap}`}>
-          {row.map((p) => {
-            const i = index++;
-            return <Tile key={p.src} photo={p} index={i} onOpen={onOpen} sizes={sizes(row.length)} />;
-          })}
-        </ul>
-      ))}
-    </div>
-  );
-}
-
-/* ---------------- Десктоп: ряды по 2–3 фото ---------------- */
+/* ---------------- Десктоп: компактная сетка в 2–3 колонки ---------------- */
 
 function DesktopGrid({ photos, onOpen }: { photos: Photo[]; onOpen: (i: number) => void }) {
   const [count, setCount] = useState(DESKTOP_STEP);
   const shown = photos.slice(0, count);
-  const rows = useMemo(() => packRows(photos.slice(0, count), [4.2, 5.2]), [photos, count]);
+  // 2 колонки для 2 и 4 фото (ровные ряды), иначе 3; неполный последний ряд — по центру
+  const cols = shown.length === 2 || shown.length === 4 ? 2 : 3;
   return (
     <div className="hidden lg:block">
-      <Rows rows={rows} onOpen={onOpen} gap="gap-4" sizes={(n) => `(min-width: 1024px) ${Math.round(1200 / n)}px, 1px`} />
+      <ul className={`mx-auto flex flex-wrap justify-center gap-3 ${cols === 2 ? "max-w-[720px]" : "max-w-[1000px]"}`}>
+        {shown.map((p, i) => (
+          <Tile
+            key={p.src}
+            photo={p}
+            index={i}
+            onOpen={onOpen}
+            sizes={`(min-width: 1024px) ${cols === 2 ? 360 : 330}px, 1px`}
+            className={cols === 2 ? "basis-[calc((100%-0.75rem)/2)]" : "basis-[calc((100%-1.5rem)/3)]"}
+          />
+        ))}
+      </ul>
       {count < photos.length ? <MoreButton onClick={() => setCount((c) => c + DESKTOP_STEP)} shown={shown.length} total={photos.length} /> : null}
     </div>
   );
 }
 
-/* ---------------- Мобильная версия: 1 большое фото, затем пара ---------------- */
+/* ---------------- Мобильная версия: 2 колонки ---------------- */
 
 function MobileGrid({ photos, onOpen }: { photos: Photo[]; onOpen: (i: number) => void }) {
   const [count, setCount] = useState(MOBILE_STEP);
   const shown = photos.slice(0, count);
-  const rows = useMemo(() => packRows(photos.slice(0, count), [1.8, 3.4]), [photos, count]);
+  const odd = shown.length % 2 === 1;
   return (
     <div className="lg:hidden">
-      <Rows rows={rows} onOpen={onOpen} gap="gap-2.5" sizes={(n) => `(max-width: 1023px) ${Math.round(100 / n)}vw, 1px`} />
+      <ul className="mx-auto grid max-w-xl grid-cols-2 gap-2">
+        {shown.map((p, i) => (
+          <Tile
+            key={p.src}
+            photo={p}
+            index={i}
+            onOpen={onOpen}
+            // При нечётном числе первое фото — во всю ширину, чтобы не было «дырки»
+            sizes={odd && i === 0 ? "(max-width: 1023px) 92vw, 1px" : "(max-width: 1023px) 46vw, 1px"}
+            className={odd && i === 0 ? "col-span-2" : ""}
+          />
+        ))}
+      </ul>
       {count < photos.length ? <MoreButton onClick={() => setCount((c) => c + MOBILE_STEP)} shown={shown.length} total={photos.length} /> : null}
     </div>
   );
@@ -305,7 +272,7 @@ function EmptyGallery() {
     "rotate-[-3deg] bg-coral-soft rounded-[26px_70px_26px_26px]",
   ];
   return (
-    <div className="relative mx-auto mt-8 max-w-3xl rounded-[28px] border-2 border-dashed border-ink/25 bg-paper px-5 py-7 text-center sm:px-10 lg:mt-10 lg:py-10">
+    <div className="relative mx-auto mt-6 max-w-2xl rounded-[24px] border-2 border-dashed border-ink/25 bg-paper px-5 py-6 text-center sm:px-8 lg:mt-7 lg:py-7">
       <div className="mx-auto flex max-w-md items-end justify-center gap-3 sm:gap-5" aria-hidden="true">
         {frames.map((f, i) => (
           <motion.div
@@ -320,9 +287,9 @@ function EmptyGallery() {
           </motion.div>
         ))}
       </div>
-      <h3 className="mt-6 text-lg font-bold sm:text-xl">{t.gallery.emptyTitle}</h3>
-      <p className="mx-auto mt-3 max-w-md leading-relaxed text-ink-soft">{t.gallery.emptyText}</p>
-      <ButtonLink href={site.instagram} external variant="insta" className="mt-6" icon={<InstagramIcon size={20} />} ariaLabel={`Instagram ${site.instagramHandle} ${t.contacts.newTab}`}>
+      <h3 className="mt-5 text-base font-bold sm:text-lg">{t.gallery.emptyTitle}</h3>
+      <p className="mx-auto mt-2 max-w-md text-[0.9rem] leading-relaxed text-ink-soft">{t.gallery.emptyText}</p>
+      <ButtonLink href={site.instagram} external variant="insta" className="mt-5" icon={<InstagramIcon size={20} />} ariaLabel={`Instagram ${site.instagramHandle} ${t.contacts.newTab}`}>
         {site.instagramHandle}
       </ButtonLink>
     </div>
@@ -337,11 +304,11 @@ export function Gallery({ photos }: { photos: Photo[] }) {
   const close = useCallback(() => setOpen(null), []);
 
   return (
-    <section id="gallery" aria-labelledby="gallery-title" className="relative bg-cream py-10 lg:py-16">
-      <div className="relative mx-auto max-w-[1240px] px-4 sm:px-6 xl:px-10">
-        <Cloud className="absolute -top-1 left-3 w-10 lg:top-2 lg:left-12 lg:w-16" float="slow" color="lilac" />
-        <Star className="absolute -top-2 right-4 size-5 lg:top-0 lg:right-16 lg:size-7" float="wiggle" color="coral" />
-        <Ball className="absolute top-28 right-4 hidden size-4 lg:block" float="float" color="teal" />
+    <section id="gallery" aria-labelledby="gallery-title" className="relative bg-cream py-7 lg:py-10">
+      <div className="relative mx-auto max-w-[1160px] px-4 sm:px-6 xl:px-10">
+        <Cloud className="absolute -top-1 left-3 w-9 lg:top-2 lg:left-12 lg:w-12" float="slow" color="lilac" />
+        <Star className="absolute -top-2 right-4 size-4 lg:top-0 lg:right-16 lg:size-6" float="wiggle" color="coral" />
+        <Ball className="absolute top-20 right-4 hidden size-3.5 lg:block" float="float" color="teal" />
         <SectionHeading
           id="gallery-title"
           eyebrow={t.gallery.eyebrow}
@@ -353,8 +320,8 @@ export function Gallery({ photos }: { photos: Photo[] }) {
         {photos.length === 0 ? (
           <EmptyGallery />
         ) : (
-          <div className="relative mt-7 lg:mt-10">
-            <Sparkle className="absolute -top-5 left-1/2 hidden size-5 -translate-x-1/2 lg:block" float="spin" color="sun" />
+          <div className="relative mt-5 lg:mt-6">
+            <Sparkle className="absolute -top-4 left-1/2 hidden size-4 -translate-x-1/2 lg:block" float="spin" color="sun" />
             <DesktopGrid photos={photos} onOpen={setOpen} />
             <MobileGrid photos={photos} onOpen={setOpen} />
           </div>
